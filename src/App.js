@@ -1,8 +1,8 @@
 import { useState } from "react";
 import "./App.css";
 import List from "./List.jsx";
-import ListWrapper from "./ListWrapper";
-import capitalize, { upperCase, length } from "./helper/string.js";
+import ListWrapper from "./components/ListWrapper";
+import StudentItem from "./components/StudentItem";
 
 function App() {
   const [name, setName] = useState("ali");
@@ -10,16 +10,31 @@ function App() {
   // const [newStudent, setNewStudent] = useState("");
   const [newStudent, setNewStudent] = useState({
     firstName: "",
-    lasName: "",
+    lastName: "",
     age: 10,
+    id:0
   });
   function onChangeInput(e) {
-    const {name, value} = e.target
-    const newNewStudent = {...newStudent};
+    const { name, value } = e.target;
+    const newNewStudent = { ...newStudent };
     newNewStudent[name] = value;
+    newNewStudent.id = Math.round(Math.random()*1000);
     setNewStudent(newNewStudent);
   }
-  console.log(newStudent);
+  function onClickSubmit() {
+    const newStudents = [...students];
+    if(newStudent.firstName.length > 0 && newStudent.lastName.length > 0){
+      newStudents.push(newStudent);
+      setStudents(newStudents);
+      setNewStudent({
+        firstName: "",
+        lastName: "",
+        age: 10,
+        id:0
+      })
+    }
+  }
+  console.log(students);
   return (
     <div className="container">
       <div className="header">
@@ -37,7 +52,7 @@ function App() {
           className="input-style"
           type="text"
           placeholder="Last name"
-          value={newStudent.lasName}
+          value={newStudent.lastName}
         />
         <input
           onChange={onChangeInput}
@@ -47,12 +62,24 @@ function App() {
           placeholder="Age"
           value={newStudent.age}
         />
-        <button className="button-style">Submit</button>
+        <button onClick={onClickSubmit} className="button-style">
+          Submit
+        </button>
       </div>
       <div className="list">
-        <ul>
-          <li></li>
-        </ul>
+        <ListWrapper title="students">
+          {students.map(function (item, index) {
+            console.log(item.id);
+            return (
+              <StudentItem
+                key={item.id}
+                firstName={item.firstName}
+                lastName={item.lastName}
+                age={item.age}
+              />
+            );
+          })}
+        </ListWrapper>
       </div>
     </div>
   );
