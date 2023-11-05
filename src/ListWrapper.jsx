@@ -1,8 +1,8 @@
-export default function ListWrapper({children}){
-    console.log(children);
+export default function ListWrapper({children, title = "default Title"}){
+    
     return(
         <div>
-            <h1>Coding Front</h1>
+            <h1>{title}</h1>
             {children}
         </div>
     )

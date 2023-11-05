@@ -1,7 +1,7 @@
 import ListItem from "./ListItem"
 
 function List({title,students}) {
-    console.log(students);
+    
     return (
         <>
             <h1>{title}</h1>
